@@ -1,0 +1,86 @@
+version: "3"
+
+services:
+  app_corecode:
+    build:
+      context: ./apps/corecode
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8001:8000"
+    depends_on:
+      - db
+    environment:
+      DEBUG: "True"
+      # ALLOWED_HOSTS: ""
+    labels:
+      kompose.service.type: LoadBalancer
+
+  app_finance:
+    build:
+      context: ./apps/finance
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8002:8000"
+    depends_on:
+      - db
+    environment:
+      DEBUG: "True"
+      # ALLOWED_HOSTS: ""
+    labels:
+      kompose.service.type: LoadBalancer
+
+  app_result:
+    build:
+      context: ./apps/result
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8005:8000"
+    depends_on:
+      - db
+    environment:
+      DEBUG: "True"
+      # ALLOWED_HOSTS: ""
+    labels:
+      kompose.service.type: LoadBalancer
+    
+  app_staffs:
+    build:
+      context: ./apps/staffs
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8003:8000"
+    depends_on:
+      - db
+    environment:
+      DEBUG: "True"
+      # ALLOWED_HOSTS: ""
+    labels:
+      kompose.service.type: LoadBalancer
+
+  app_students:
+    build:
+      context: ./apps/students
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8004:8000"
+    depends_on:
+      - db
+    environment:
+      DEBUG: "True"
+      # ALLOWED_HOSTS: ""
+    labels:
+      kompose.service.type: LoadBalancer
+
+  
+  db:
+    image: "nouchka/sqlite3"
+    volumes:
+      - db_data:/var/lib/sqlite/data
+
+volumes:
+  db_data:
